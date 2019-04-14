@@ -1,0 +1,4 @@
+act-api>=0.6.0
+requests
+graphviz
+atlassian-python-api
