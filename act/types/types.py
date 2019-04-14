@@ -6,7 +6,7 @@ import argparse
 import json
 import sys
 from logging import critical, warning
-from typing import Text, Dict
+from typing import Dict, Text
 
 from pkg_resources import resource_string
 
@@ -68,15 +68,26 @@ def etc_file(filename: Text) -> Text:
     return resource_string("act.types", "etc/{}".format(filename)).decode('utf-8')
 
 
-def create_object_types(client: act.api.Act, object_types_json: Text) -> None:
+def etc_json(filename: Text) -> Dict:
+    "Get content of file from resource/etc"
+    return parse_json(etc_file(filename))
+
+
+def parse_json(json_str: Text) -> Dict:
+    """
+    Parse as json, and exit on parse error
+    """
+    try:
+        return json.loads(json_str)
+    except json.decoder.JSONDecodeError:
+        critical("Unable to parse file as json: %s" % json_str)
+        sys.exit(1)
+
+
+def create_object_types(client: act.api.Act, object_types: Dict) -> None:
     """
     Create object types
     """
-    try:
-        object_types = json.loads(object_types_json)
-    except json.decoder.JSONDecodeError:
-        critical("Unable to parse file as json: %s" % object_types_json)
-        sys.exit(1)
 
     existing_object_types = [object_type.name
                              for object_type in client.get_object_types()]
@@ -93,18 +104,12 @@ def create_object_types(client: act.api.Act, object_types_json: Text) -> None:
         client.object_type(name=name, validator_parameter=validator).add()
 
 
-def create_fact_types(client, fact_types_json):
+def create_fact_types(client: act.api.Act, fact_types: Dict) -> None:
     """
     Create fact type with allowed bindings to ALL objects
     We want to change this later, but keep it like this to make it simpler
     when evaluating the data model
     """
-
-    try:
-        fact_types = json.loads(fact_types_json)
-    except json.decoder.JSONDecodeError:
-        critical("Unable to parse file as json: %s" % fact_types_json)
-        sys.exit(1)
 
     for fact_type in fact_types:
         name = fact_type["name"]
@@ -119,18 +124,12 @@ def create_fact_types(client, fact_types_json):
             client.create_fact_type(name, validator=validator, object_bindings=object_bindings)
 
 
-def create_meta_fact_types(client, meta_fact_types_json):
+def create_meta_fact_types(client: act.api.Act, meta_fact_types: Dict) -> None:
     """
     Create fact type with allowed bindings to ALL objects
     We want to change this later, but keep it like this to make it simpler
     when evaluating the data model
     """
-
-    try:
-        meta_fact_types = json.loads(meta_fact_types_json)
-    except json.decoder.JSONDecodeError:
-        critical("Unable to parse as json: %s" % meta_fact_types_json)
-        sys.exit(1)
 
     for meta_fact_type in meta_fact_types:
         name = meta_fact_type["name"]
@@ -160,6 +159,10 @@ def main() -> None:
         print(etc_file("meta-fact-types.json"))
         sys.exit(0)
 
+    if not args.act_baseurl and args.userid:
+        sys.stderr.write("Missing --act-baseurl and/or --userid\n")
+        sys.exit(1)
+
     client = act.api.Act(
         args.act_baseurl,
         args.userid,
@@ -168,13 +171,13 @@ def main() -> None:
         "act-types")
 
     if args.add_default_object_types:
-        create_object_types(client, etc_file("object-types.json"))
+        create_object_types(client, etc_json("object-types.json"))
 
     if args.add_default_fact_types:
-        create_fact_types(client, etc_file("fact-types.json"))
+        create_fact_types(client, etc_json("fact-types.json"))
 
     if args.add_default_meta_fact_types:
-        create_meta_fact_types(client, etc_file("meta-fact-types.json"))
+        create_meta_fact_types(client, etc_json("meta-fact-types.json"))
 
     if args.object_types_file:
         create_object_types(client, args.object_types_file.read())
