@@ -18,14 +18,15 @@ act-types \
     --userid 1 \
     --act-baseurl http://localhost:8888 \
     --loglevel ERROR \
-    --add-default-object-types \
-    --add-default-fact-types \
-    --add-default-meta-fact-types
+    --default-object-types \
+    --default-fact-types \
+    --default-meta-fact-types \
+    add
 ```
 
 To print default types (replace with fact/meta-fact for other types):
 ```bash
-act-types --print-default-object-types
+act-types --default-object-types print
 ```
 
 ## act-graph-datamodel usage
