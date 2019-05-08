@@ -43,6 +43,11 @@ def parseargs() -> argparse.Namespace:
     parser.add_argument(
         "--meta-fact-types-file",
         help="Meta Fact type definitions (json)")
+    parser.add_argument('--http-user', dest='http_user', help="ACT HTTP Basic Auth user")
+    parser.add_argument(
+        '--http-password',
+        dest='http_password',
+        help="ACT HTTP Basic Auth password")
     parser.add_argument("--logfile", help="Log to file (default = stdout)")
     parser.add_argument("--loglevel", default="info", help="Loglevel (default = info)")
     parser.add_argument("--userid", type=int, help="User ID")
@@ -175,12 +180,17 @@ def main() -> None:
             sys.stderr.write("Missing --act-baseurl and/or --userid\n")
             sys.exit(1)
 
+        auth = None
+        if args.http_user:
+            auth = (args.http_user, args.http_password)
+
         client = act.api.Act(
             args.act_baseurl,
             args.userid,
             args.loglevel,
             args.logfile,
-            "act-types")
+            "act-types",
+            requests_common_kwargs={'auth': auth})
 
         if args.default_object_types:
             create_object_types(client, load_types(etc_file("object-types.json")))
