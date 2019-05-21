@@ -27,6 +27,9 @@
     "name": "email"
   },
   {
+    "name": "event"
+  },
+  {
     "name": "exploitTechnique"
   },
   {
@@ -90,6 +93,9 @@
   },
   {
     "name": "service"
+  },
+  {
+    "name": "signature"
   },
   {
     "name": "ssn"

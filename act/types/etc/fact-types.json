@@ -117,6 +117,19 @@
     ]
   },
   {
+    "name": "detects",
+    "objectBindings": [
+      {
+        "destinationObjectType": [
+          "event"
+        ],
+        "sourceObjectType": [
+          "signature"
+        ]
+      }
+    ]
+  },
+  {
     "name": "implements",
     "objectBindings": [
       {
@@ -216,6 +229,14 @@
       {
         "destinationObjectType": [
           "incident"
+        ],
+        "sourceObjectType": [
+          "event"
+        ]
+      },
+      {
+        "destinationObjectType": [
+          "event"
         ],
         "sourceObjectType": [
           "certificate",
