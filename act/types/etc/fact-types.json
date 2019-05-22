@@ -36,6 +36,10 @@
     "name": "attributedTo",
     "objectBindings": [
       {
+        "destinationObjectType": "incident",
+        "sourceObjectType": "event"
+      },
+      {
         "destinationObjectType": [
           "organization",
           "person"
@@ -43,10 +47,15 @@
         "sourceObjectType": "threatActor"
       },
       {
-        "destinationObjectType": [
-          "threatActor",
-          "campaign"
-        ],
+        "destinationObjectType": "threatActor",
+        "sourceObjectType": [
+          "incident",
+          "technique",
+          "tool"
+        ]
+      },
+      {
+        "destinationObjectType": "campaign",
         "sourceObjectType": "incident"
       },
       {
@@ -80,6 +89,10 @@
       {
         "destinationObjectType": "tool",
         "sourceObjectType": "content"
+      },
+      {
+        "destinationObjectType": "technique",
+        "sourceObjectType": "event"
       }
     ]
   },
@@ -228,14 +241,6 @@
     "objectBindings": [
       {
         "destinationObjectType": [
-          "incident"
-        ],
-        "sourceObjectType": [
-          "event"
-        ]
-      },
-      {
-        "destinationObjectType": [
           "event"
         ],
         "sourceObjectType": [
@@ -243,7 +248,6 @@
           "content",
           "credential",
           "email",
-          "technique",
           "uri",
           "username"
         ]
