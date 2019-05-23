@@ -49,9 +49,7 @@
       {
         "destinationObjectType": "threatActor",
         "sourceObjectType": [
-          "incident",
-          "technique",
-          "tool"
+          "incident"
         ]
       },
       {
@@ -77,8 +75,11 @@
     "objectBindings": [
       {
         "sourceObjectType": [
+          "hash",
           "ipv4",
-          "ipv6"
+          "ipv6",
+          "report",
+          "tool"
         ]
       }
     ]
@@ -108,13 +109,6 @@
           "ipv6",
           "path",
           "query",
-          "username"
-        ]
-      },
-      {
-        "destinationObjectType": "email",
-        "sourceObjectType": [
-          "fqdn",
           "username"
         ]
       }
@@ -200,7 +194,6 @@
         "destinationObjectType": [
           "campaign",
           "certificate",
-          "email",
           "fqdn",
           "hash",
           "ipv4",
@@ -244,10 +237,8 @@
           "event"
         ],
         "sourceObjectType": [
-          "certificate",
           "content",
           "credential",
-          "email",
           "uri",
           "username"
         ]
