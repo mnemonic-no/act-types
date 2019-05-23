@@ -165,8 +165,9 @@ def run() -> None:
 
         dot.node(s, s)
         dot.node(d, d)
-        dot.edge(s, d, label=name)
         if di:
+            dot.edge(s, d, label=name, dir="both")
+        else:
             dot.edge(s, d, label=name)
 
     dot.render('output/double', format='png', renderer='cairo')
@@ -199,8 +200,9 @@ def run() -> None:
 
         dot.node(s, s)
         dot.node(d, d)
-        dot.edge(s, d, label=name)
-        if di and not s == d:
+        if di:
+            dot.edge(s, d, label=name, dir="both")
+        else:
             dot.edge(s, d, label=name)
 
     dot.render('output/complete', format='png', renderer='cairo')
