@@ -197,6 +197,7 @@
           "fqdn",
           "hash",
           "ipv4",
+          "ipv4Network",
           "ipv6",
           "country",
           "region",
