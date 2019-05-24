@@ -24,10 +24,7 @@
     "name": "cryptocurrencyAddress"
   },
   {
-    "name": "email"
-  },
-  {
-    "name": "exploitTechnique"
+    "name": "event"
   },
   {
     "name": "fqdn"
@@ -90,6 +87,9 @@
   },
   {
     "name": "service"
+  },
+  {
+    "name": "signature"
   },
   {
     "name": "ssn"
