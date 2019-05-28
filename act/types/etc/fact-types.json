@@ -224,6 +224,7 @@
       {
         "sourceObjectType": [
           "asn",
+          "incident",
           "report"
         ]
       }
