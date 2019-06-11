@@ -273,6 +273,15 @@
     "validator": "^[0-9]{1,5}$"
   },
   {
+    "name": "redirectsTo",
+    "objectBindings": [
+      {
+        "destinationObjectType": "uri",
+        "sourceObjectType": "uri"
+      }
+    ]
+  },
+  {
     "name": "represents",
     "objectBindings": [
       {
