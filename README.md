@@ -24,6 +24,10 @@ act-types \
     add
 ```
 
+It is safe to rerun the command above, after new types have been added to the data model.
+
+You can also add types from your own files, using --object-types-file, --fact-types-file and --meta-fact-types-file that points to a json file on the same format as the [default types](https://github.com/mnemonic-no/act-types/tree/master/act/types/etc).
+
 To print default types (replace with fact/meta-fact for other types):
 ```bash
 act-types --default-object-types print
@@ -42,3 +46,15 @@ usage: act-graph-datamodel [-h] [--uid UID] [--http_username HTTP_USERNAME]
                            [--confluence_password CONFLUENCE_PASSWORD]
                            url
 ```
+
+# Local development
+
+Use pip to install in [local development mode](https://pip.pypa.io/en/stable/reference/pip_install/#editable-installs). act-types (and act-api) uses namespacing, so it is not compatible with using `setup.py install` or `setup.py develop`.
+
+In repository, run:
+
+```bash
+pip3 install --user -e .
+```
+
+It is also necessary to install in local development mode to correctly resolve the files that are read by the `--default-*` options when doing local changes. These are read from etc under act.types and if the package is installed with "pip install act-types" it will always read the files from the installed package, even though you do changes in a local checked out repository.
