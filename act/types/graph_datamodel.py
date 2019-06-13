@@ -184,7 +184,7 @@ def run() -> None:
         dot.node(name, label=name, shape='diamond')
         dot.node(s, s)
 
-        dot.edge(name, s)
+        dot.edge(s, name)
 
     dot.render('output/single', format='png', renderer='cairo')
 
