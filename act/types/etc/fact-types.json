@@ -196,6 +196,7 @@
           "certificate",
           "fqdn",
           "hash",
+          "incident",
           "ipv4",
           "ipv4Network",
           "ipv6",
@@ -224,6 +225,7 @@
       {
         "sourceObjectType": [
           "asn",
+          "campaign",
           "incident",
           "report"
         ]
