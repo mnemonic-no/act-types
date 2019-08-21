@@ -94,6 +94,10 @@
       {
         "destinationObjectType": "technique",
         "sourceObjectType": "event"
+      },
+      {
+        "destinationObjectType": "toolType",
+        "sourceObjectType": "tool"
       }
     ]
   },
