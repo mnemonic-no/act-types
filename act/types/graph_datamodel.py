@@ -31,7 +31,7 @@ class DataModel:
         self.status: Optional[int] = None
         self._objects: Optional[dict] = None
         self._facts: Optional[dict] = None
-        self.verify = cacert if cacert != '' else False
+        self.verify = cacert if cacert != '' else True
 
     def load(self) -> None:
         """Download the datamodel from the act instance"""
@@ -233,10 +233,14 @@ def run() -> None:
         except KeyError:
             pass
 
+        verify_ssl = True
+        if args.cacert:
+            verify_ssl = False
+
         confluence = Confluence(url=args.confluence_url,
                                 username=args.confluence_user,
                                 password=args.confluence_password,
-                                verify_ssl=args.cacert)
+                                verify_ssl=verify_ssl)
         confluence.attach_file(
             'output/double.cairo.png',
             page_id=args.parent_id,
@@ -263,7 +267,7 @@ def run() -> None:
                 os.path.join(args.dump_source, 'single.dot'),
                 page_id=args.parent_id,
                 title='single source')
-        
+
 
 
 if __name__ == '__main__':
