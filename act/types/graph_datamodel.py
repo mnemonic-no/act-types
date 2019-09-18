@@ -137,7 +137,7 @@ def run() -> None:
 
     args = parse_args()
 
-    dm = DataModel(args.url, args.http_username, args.http_password, args.uid)
+    dm = DataModel(args.url, args.http_username, args.http_password, args.uid, args.cacert)
     dm.load()
 
     if dm.status != 200:
