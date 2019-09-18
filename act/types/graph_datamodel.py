@@ -233,9 +233,7 @@ def run() -> None:
         except KeyError:
             pass
 
-        verify_ssl = True
-        if args.cacert:
-            verify_ssl = False
+        verify_ssl = False if args.cacert else True
 
         confluence = Confluence(url=args.confluence_url,
                                 username=args.confluence_user,
