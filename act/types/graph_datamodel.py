@@ -21,7 +21,8 @@ class DataModel:
                  url: str,
                  username: Optional[str] = None,
                  password: Optional[str] = None,
-                 user_id: int = 0) -> None:
+                 user_id: int = 0,
+                 cacert: str = '') -> None:
         self.objects_url = urllib.parse.urljoin(url, "/v1/objectType")
         self.facts_url = urllib.parse.urljoin(url, "/v1/factType")
         self.username = username
@@ -30,6 +31,7 @@ class DataModel:
         self.status: Optional[int] = None
         self._objects: Optional[dict] = None
         self._facts: Optional[dict] = None
+        self.verify = cacert if cacert != '' else True
 
     def load(self) -> None:
         """Download the datamodel from the act instance"""
@@ -41,9 +43,9 @@ class DataModel:
         auth = (self.username, self.password)
 
         if self.username:
-            r = requests.get(self.objects_url, auth=auth, headers=headers)
+            r = requests.get(self.objects_url, auth=auth, headers=headers, verify=self.verify)
         else:
-            r = requests.get(self.objects_url, headers=headers)
+            r = requests.get(self.objects_url, headers=headers, verify=self.verify)
 
         if r.status_code == 200:
             self._objects = r.json()
@@ -56,9 +58,9 @@ class DataModel:
             return
 
         if self.username:
-            r = requests.get(self.facts_url, auth=auth, headers=headers)
+            r = requests.get(self.facts_url, auth=auth, headers=headers, verify=self.verify)
         else:
-            r = requests.get(self.facts_url, headers=headers)
+            r = requests.get(self.facts_url, headers=headers, verify=self.verify)
 
         if r.status_code == 200:
             self._facts = r.json()
@@ -124,6 +126,8 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument('--confluence_url', type=str, default=None, help="Confluence api url")
     parser.add_argument('--confluence_user', type=str, default=None, help="Confluence user")
     parser.add_argument('--confluence_password', type=str, default=None, help="Confluence password")
+    parser.add_argument('--dump_source', type=str, default=None, help="Dump graphviz source to directory")
+    parser.add_argument('--cacert', type=str, default=None, help="If you need to specify a CA certificate file")
 
     return parser.parse_args()
 
@@ -170,6 +174,10 @@ def run() -> None:
         else:
             dot.edge(s, d, label=name)
 
+    if args.dump_source:
+        with open(os.path.join(args.dump_source, 'double.dot'), 'w') as f:
+            f.write(dot.source)
+
     dot.render('output/double', format='png', renderer='cairo')
 
     dot = graphviz.Digraph(comment='Single edge facts')
@@ -185,6 +193,10 @@ def run() -> None:
         dot.node(s, s)
 
         dot.edge(s, name)
+
+    if args.dump_source:
+        with open(os.path.join(args.dump_source, 'single.dot'), 'w') as f:
+            f.write(dot.source)
 
     dot.render('output/single', format='png', renderer='cairo')
 
@@ -205,14 +217,28 @@ def run() -> None:
         else:
             dot.edge(s, d, label=name)
 
+    if args.dump_source:
+        with open(os.path.join(args.dump_source, 'complete.dot'), 'w') as f:
+            f.write(dot.source)
+
     dot.render('output/complete', format='png', renderer='cairo')
 
     if args.parent_id:
-        os.environ.pop('https_proxy')
-        os.environ.pop('http_proxy')
+        try:
+            os.environ.pop('https_proxy')
+        except KeyError:
+            pass
+        try:
+            os.environ.pop('http_proxy')
+        except KeyError:
+            pass
+
+        verify_ssl = False if args.cacert else True
+
         confluence = Confluence(url=args.confluence_url,
                                 username=args.confluence_user,
-                                password=args.confluence_password)
+                                password=args.confluence_password,
+                                verify_ssl=verify_ssl)
         confluence.attach_file(
             'output/double.cairo.png',
             page_id=args.parent_id,
@@ -225,6 +251,21 @@ def run() -> None:
             'output/complete.cairo.png',
             page_id=args.parent_id,
             title='Single Edged Facts')
+
+        if args.dump_source:
+            confluence.attach_file(
+                os.path.join(args.dump_source, 'complete.dot'),
+                page_id=args.parent_id,
+                title='complete source')
+            confluence.attach_file(
+                os.path.join(args.dump_source, 'double.dot'),
+                page_id=args.parent_id,
+                title='double source')
+            confluence.attach_file(
+                os.path.join(args.dump_source, 'single.dot'),
+                page_id=args.parent_id,
+                title='single source')
+
 
 
 if __name__ == '__main__':
