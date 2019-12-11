@@ -141,6 +141,15 @@
     ]
   },
   {
+    "name": "exploits",
+    "objectBindings": [
+      {
+        "destinationObjectType": "vulnerability",
+        "sourceObjectType": "content"
+      }
+    ]
+  },
+  {
     "name": "implements",
     "objectBindings": [
       {
