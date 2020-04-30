@@ -12,7 +12,8 @@
     "name": "certificate"
   },
   {
-    "name": "content"
+    "name": "content",
+    "validator": "^([a-f0-9]{64})|(\\[placeholder\\[[a-z0-9]{64}\\]\\])$"
   },
   {
     "name": "country"
