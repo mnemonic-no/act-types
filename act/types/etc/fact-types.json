@@ -341,6 +341,10 @@
       {
         "destinationObjectType": "content",
         "sourceObjectType": "hash"
+      },
+      {
+        "destinationObjectType": "content",
+        "sourceObjectType": "report"
       }
     ]
   },
