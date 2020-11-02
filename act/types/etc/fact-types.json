@@ -158,6 +158,7 @@
     "objectBindings": [
       {
         "sourceObjectType": [
+          "fqdn",
           "ipv4",
           "ipv6"
         ]
