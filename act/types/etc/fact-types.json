@@ -154,6 +154,17 @@
     ]
   },
   {
+    "name": "excessive",
+    "objectBindings": [
+      {
+        "sourceObjectType": [
+          "ipv4",
+          "ipv6"
+        ]
+      }
+    ]
+  },
+  {
     "name": "executes",
     "objectBindings": [
       {
