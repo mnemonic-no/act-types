@@ -15,6 +15,7 @@ from pkg_resources import resource_filename
 
 import act.api
 
+
 class TypeLoadError(Exception):
     pass
 
@@ -85,11 +86,12 @@ def default_meta_fact_types():
 def get_object_validator(object_type: Text) -> Text:
     """ Get object validator, default to act.api.DEFAULT_VALIDATOR) """
 
-    typedef = [t for t in default_object_types() if t["name"] == object_type][0]
+    typedef = [t for t in default_object_types() if t["name"] == object_type]
 
     if not typedef:
         raise TypeLoadError(f"Type not found: {object_type}")
     if len(typedef) > 1:
+        print(typedef)
         raise TypeLoadError(f"Multiple types found for {object_type}")
 
     return typedef[0].get("validator", act.api.DEFAULT_VALIDATOR)
