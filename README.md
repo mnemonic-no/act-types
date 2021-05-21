@@ -11,6 +11,15 @@ These scripts are used to add types to the [ACT](https://github.com/mnemonic-no/
 pip install act-types
 ```
 
+## Breaking changes
+
+### 2.0 Updated data model
+
+This version includes breaking changes to the data model. It is advised to do a reimport of all data and import using act-worker with version >= 2.0.0.
+
+The following changes are implemented:
+- On technique and tactic we use ID instead of name as value, and name is added as a `name` fact
+
 ## act-types usage
 To bootstrap the type system with default types (userid/act-baseurl must point to ACT installation):
 ```
