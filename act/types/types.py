@@ -3,8 +3,10 @@
 """ Add ACT types """
 
 import argparse
+import functools
 import json
 import os
+import re
 import sys
 from logging import critical, warning
 from typing import Any, Dict, List, Text
@@ -12,6 +14,10 @@ from typing import Any, Dict, List, Text
 from pkg_resources import resource_filename
 
 import act.api
+
+
+class TypeLoadError(Exception):
+    pass
 
 
 def parseargs() -> argparse.Namespace:
@@ -64,23 +70,58 @@ def etc_file(filename: Text) -> Text:
     return resource_filename("act.types", "etc/{}".format(filename))  # ).decode('utf-8')
 
 
+@functools.lru_cache(32)
+def default_object_types():
+    return load_types(etc_file("object-types.json"))
+
+
+def default_fact_types():
+    return load_types(etc_file("fact-types.json"))
+
+
+def default_meta_fact_types():
+    return load_types(etc_file("meta-fact-types.json"))
+
+
+@functools.lru_cache(32)
+def get_object_validator(object_type: Text) -> Text:
+    """ Get object validator, default to act.api.DEFAULT_VALIDATOR) """
+
+    typedef = [t for t in default_object_types() if t["name"] == object_type]
+
+    if not typedef:
+        raise TypeLoadError(f"Type not found: {object_type}")
+    if len(typedef) > 1:
+        print(typedef)
+        raise TypeLoadError(f"Multiple types found for {object_type}")
+
+    return typedef[0].get("validator", act.api.DEFAULT_VALIDATOR)
+
+
+def object_validates(object_type: Text, object_value: Text) -> bool:
+    """ Validate object using current valdiator """
+    validator = get_object_validator(object_type)
+
+    if re.fullmatch(validator, object_value):
+        return True
+
+    return False
+
+
 def load_types(filename: Text) -> List[Dict]:
     """
     Parse as json, and exit on parse error
     """
     if not os.path.isfile(filename):
-        critical("File not found: {}".format(filename))
-        sys.exit(1)
+        raise TypeLoadError(f"File not found: {filename}")
 
     try:
         types = json.loads(open(filename, encoding="UTF8").read())
     except json.decoder.JSONDecodeError:
-        critical("Unable to parse file as json: %s" % filename)
-        sys.exit(2)
+        raise TypeLoadError(f"Unable to parse file as json: {filename}")
 
     if not isinstance(types, list):
-        critical("Types must be a list of dicts")
-        sys.exit(3)
+        raise TypeLoadError(f"Types must be a list of dicts")
 
     return types
 
@@ -154,23 +195,27 @@ def main() -> None:
     args = parseargs()
 
     if "print" in args.action:
-        if args.default_object_types:
-            print_json(load_types(etc_file("object-types.json")))
+        try:
+            if args.default_object_types:
+                print_json(default_object_types())
 
-        if args.default_fact_types:
-            print_json(load_types(etc_file("fact-types.json")))
+            if args.default_fact_types:
+                print_json(default_fact_types())
 
-        if args.default_meta_fact_types:
-            print_json(load_types(etc_file("meta-fact-types.json")))
+            if args.default_meta_fact_types:
+                print_json(default_meta_fact_types())
 
-        if args.object_types_file:
-            print_json(load_types(args.object_types_file))
+            if args.object_types_file:
+                print_json(load_types(args.object_types_file))
 
-        if args.fact_types_file:
-            print_json(load_types(args.fact_types_file))
+            if args.fact_types_file:
+                print_json(load_types(args.fact_types_file))
 
-        if args.meta_fact_types_file:
-            print_json(load_types(args.meta_fact_types_file))
+            if args.meta_fact_types_file:
+                print_json(load_types(args.meta_fact_types_file))
+        except TypeLoadError as e:
+            critical(str(e))
+            sys.exit(1)
 
         sys.exit(0)
 
@@ -192,23 +237,27 @@ def main() -> None:
             "act-types",
             requests_common_kwargs={'auth': auth})
 
-        if args.default_object_types:
-            create_object_types(client, load_types(etc_file("object-types.json")))
+        try:
+            if args.default_object_types:
+                create_object_types(client, default_object_types())
 
-        if args.default_fact_types:
-            create_fact_types(client, load_types(etc_file("fact-types.json")))
+            if args.default_fact_types:
+                create_fact_types(client, default_fact_types())
 
-        if args.default_meta_fact_types:
-            create_meta_fact_types(client, load_types(etc_file("meta-fact-types.json")))
+            if args.default_meta_fact_types:
+                create_meta_fact_types(client, default_meta_fact_types())
 
-        if args.object_types_file:
-            create_object_types(client, load_types(args.object_types_file))
+            if args.object_types_file:
+                create_object_types(client, load_types(args.object_types_file))
 
-        if args.fact_types_file:
-            create_fact_types(client, load_types(args.fact_types_file))
+            if args.fact_types_file:
+                create_fact_types(client, load_types(args.fact_types_file))
 
-        if args.meta_fact_types_file:
-            create_meta_fact_types(client, load_types(args.meta_fact_types_file))
+            if args.meta_fact_types_file:
+                create_meta_fact_types(client, load_types(args.meta_fact_types_file))
+        except TypeLoadError as e:
+            critical(str(e))
+            sys.exit(1)
 
 
 if __name__ == "__main__":

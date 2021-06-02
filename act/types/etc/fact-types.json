@@ -278,7 +278,9 @@
           "asn",
           "campaign",
           "incident",
-          "report"
+          "report",
+          "tactic",
+          "technique"
         ]
       }
     ],
@@ -381,6 +383,15 @@
       }
     ],
     "validator": "^[a-z][a-z\\d+-.]*$"
+  },
+  {
+    "name": "subTechniqueOf",
+    "objectBindings": [
+      {
+        "destinationObjectType": "technique",
+        "sourceObjectType": "technique"
+      }
+    ]
   },
   {
     "name": "targets",

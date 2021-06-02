@@ -99,13 +99,16 @@
     "name": "subRegion"
   },
   {
-    "name": "tactic"
+    "name": "tactic",
+    "validator": "((TA\\d+$)|(\\[placeholder\\[[a-f0-9]{64}\\]\\]))"
   },
   {
-    "name": "technique"
+    "name": "technique",
+    "validator": "(T\\d+(.\\d+)?$)|(\\[placeholder\\[[a-f0-9]{64}\\]\\])"
   },
   {
-    "name": "threatActor"
+    "name": "threatActor",
+    "validator": "([\\. /a-z0-9_-]+)|(\\[placeholder\\[[a-f0-9]{64}\\]\\])"
   },
   {
     "name": "tool",
