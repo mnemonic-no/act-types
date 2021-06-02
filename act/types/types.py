@@ -70,6 +70,7 @@ def etc_file(filename: Text) -> Text:
     return resource_filename("act.types", "etc/{}".format(filename))  # ).decode('utf-8')
 
 
+@functools.lru_cache(32)
 def default_object_types():
     return load_types(etc_file("object-types.json"))
 
