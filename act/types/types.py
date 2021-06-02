@@ -101,7 +101,7 @@ def object_validates(object_type: Text, object_value: Text) -> bool:
     """ Validate object using current valdiator """
     validator = get_object_validator(object_type)
 
-    if re.search(validator, object_value):
+    if re.fullmatch(validator, object_value):
         return True
 
     return False
