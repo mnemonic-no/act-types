@@ -36,10 +36,6 @@
     "name": "attributedTo",
     "objectBindings": [
       {
-        "destinationObjectType": "incident",
-        "sourceObjectType": "event"
-      },
-      {
         "destinationObjectType": [
           "organization",
           "person"
@@ -92,10 +88,6 @@
         "sourceObjectType": "content"
       },
       {
-        "destinationObjectType": "technique",
-        "sourceObjectType": "event"
-      },
-      {
         "destinationObjectType": "toolType",
         "sourceObjectType": "tool"
       }
@@ -136,19 +128,6 @@
         ],
         "sourceObjectType": [
           "content"
-        ]
-      }
-    ]
-  },
-  {
-    "name": "detects",
-    "objectBindings": [
-      {
-        "destinationObjectType": [
-          "event"
-        ],
-        "sourceObjectType": [
-          "signature"
         ]
       }
     ]
@@ -291,13 +270,12 @@
     "objectBindings": [
       {
         "destinationObjectType": [
-          "event"
+          "incident"
         ],
         "sourceObjectType": [
           "content",
-          "credential",
-          "uri",
-          "username"
+          "technique",
+          "uri"
         ]
       }
     ]

@@ -25,9 +25,6 @@
     "name": "cryptocurrencyAddress"
   },
   {
-    "name": "event"
-  },
-  {
     "name": "fqdn"
   },
   {
@@ -88,9 +85,6 @@
   },
   {
     "name": "service"
-  },
-  {
-    "name": "signature"
   },
   {
     "name": "ssn"
