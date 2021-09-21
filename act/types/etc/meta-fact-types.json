@@ -5,6 +5,6 @@
   },
   {
     "name": "observationTime",
-    "validator": "^[0-9]+$"
+    "validator": "^[0-9]{12,13}+$"
   }
 ]
