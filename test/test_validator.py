@@ -11,8 +11,11 @@ def test_tool_validator():
 
 def test_threatactor_validator():
     assert object_validates("threatActor", "APT28") is False
+    assert object_validates("threatActor", "apT28") is False
     assert object_validates("threatActor", "apt28") is True
     assert object_validates("threatActor", "some-ta") is True
+    assert object_validates("threatActor", "some-ta@!") is True
+    assert object_validates("threatActor", PLACEHOLDER) is True
 
 
 def test_uri_validator():
