@@ -102,7 +102,7 @@
   },
   {
     "name": "threatActor",
-    "validator": "([\\. /a-z0-9_-]+)|(\\[placeholder\\[[a-f0-9]{64}\\]\\])"
+    "validator": "(^[^A-Z]+$)|(\\[placeholder\\[[a-f0-9]{64}\\]\\])"
   },
   {
     "name": "tool",
