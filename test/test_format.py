@@ -8,3 +8,5 @@ def test_tool_format():
 
 def test_threatactor_format():
     assert format_threat_actor("APT28") == "apt28"
+    assert format_threat_actor("APT28 ") == "apt28"
+    assert format_threat_actor("supER+@ta") == "super+@ta"
