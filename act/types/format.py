@@ -8,31 +8,31 @@ class ValidationError(Exception):
     pass
 
 
-def format_tool(tool: Text) -> Text:
-    """Format tool name:
+def default_lowercase_format(value: Text) -> Text:
+    """ Default lowercase format
     * remove text in paranthesis
     * replace multiple whitespace with single space
     * lowercase
-    * check that tool validates
     """
 
-    name = re.sub(r"\s+", " ", re.sub(r"\(.*\)", "", tool)).lower().strip()
+    return re.sub(r"\s+", " ", re.sub(r"\(.*\)", "", value)).lower().strip()
 
-    if not object_validates("tool", name):
-        raise ValidationError(f"Tool does not validate: {tool}")
 
-    return name
+def validate(object_type: Text, object_value: Text):
+    """ Validate object type/value """
+    if not object_validates(object_type, object_value):
+        raise ValidationError(f"{object_type} does not validate: {object_value}")
+
+    return object_value
+
+
+def format_tool(tool: Text) -> Text:
+    """ Format and validate tool name """
+
+    return validate("tool", default_lowercase_format(tool))
 
 
 def format_threat_actor(threat_actor: Text) -> Text:
-    """Format Threat Actor:
-    * lowercase
-    * check that threat actor validates
-    """
+    """ Format and validate Threat Actor name """
 
-    name = re.sub(r"\(.*\)", "", threat_actor).lower().strip()
-
-    if not object_validates("threatActor", name):
-        raise ValidationError(f"ThreatActor does not validate: {threat_actor}")
-
-    return name
+    return validate("threatActor", default_lowercase_format(threat_actor))
