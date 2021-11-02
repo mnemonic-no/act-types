@@ -10,7 +10,7 @@ from typing import Dict, List, Text
 
 from pkg_resources import resource_filename
 
-DEFAULT_VALIDATOR = r'(.|\n)*'
+DEFAULT_VALIDATOR = r"(.|\n)*"
 
 
 class TypeLoadError(Exception):
@@ -19,7 +19,9 @@ class TypeLoadError(Exception):
 
 def etc_file(filename: Text) -> Text:
     "Get content of file from resource/etc"
-    return resource_filename("act.types", "etc/{}".format(filename))  # ).decode('utf-8')
+    return resource_filename(
+        "act.types", "etc/{}".format(filename)
+    )  # ).decode('utf-8')
 
 
 @functools.lru_cache(32)
@@ -37,7 +39,7 @@ def default_meta_fact_types():
 
 @functools.lru_cache(32)
 def get_object_validator(object_type: Text) -> Text:
-    """ Get object validator, default to DEFAULT_VALIDATOR) """
+    """Get object validator, default to DEFAULT_VALIDATOR)"""
 
     typedef = [t for t in default_object_types() if t["name"] == object_type]
 
@@ -51,7 +53,7 @@ def get_object_validator(object_type: Text) -> Text:
 
 
 def object_validates(object_type: Text, object_value: Text) -> bool:
-    """ Validate object using current valdiator """
+    """Validate object using current valdiator"""
 
     if object_value == "*":
         # Fact Chain value -> do not validate

@@ -1,6 +1,8 @@
 from act.types.types import object_validates
 
-PLACEHOLDER = "[placeholder[d12da485a7ae4437499b0d5a97f71c5d33e1a90588717b020f9b1f4c18368be0]]"
+PLACEHOLDER = (
+    "[placeholder[d12da485a7ae4437499b0d5a97f71c5d33e1a90588717b020f9b1f4c18368be0]]"
+)
 
 
 def test_tool_validator():
