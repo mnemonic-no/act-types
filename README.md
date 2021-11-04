@@ -11,41 +11,14 @@ These scripts are used to add types to the [ACT](https://github.com/mnemonic-no/
 pip install act-types
 ```
 
-## act-types usage
-To bootstrap the type system with default types (userid/act-baseurl must point to ACT installation):
-```
-act-types \
-    --userid 1 \
-    --act-baseurl http://localhost:8888 \
-    --loglevel ERROR \
-    --default-object-types \
-    --default-fact-types \
-    --default-meta-fact-types \
-    add
-```
+## Breaking changes
 
-It is safe to rerun the command above, after new types have been added to the data model.
+### 2.0 Updated data model
 
-You can also add types from your own files, using --object-types-file, --fact-types-file and --meta-fact-types-file that points to a json file on the same format as the [default types](https://github.com/mnemonic-no/act-types/tree/master/act/types/etc).
+This version includes breaking changes to the data model. It is advised to do a reimport of all data and import using act-worker with version >= 2.0.0.
 
-To print default types (replace with fact/meta-fact for other types):
-```bash
-act-types --default-object-types print
-```
-
-## act-graph-datamodel usage
-
-Build a graph (graphviz) of the ACT data model.
-```bash
-act-graph-datamodel --help
-usage: act-graph-datamodel [-h] [--uid UID] [--http_username HTTP_USERNAME]
-                           [--http_password HTTP_PASSWORD]
-                           [--parent_id PARENT_ID]
-                           [--confluence_url CONFLUENCE_URL]
-                           [--confluence_user CONFLUENCE_USER]
-                           [--confluence_password CONFLUENCE_PASSWORD]
-                           url
-```
+The following changes are implemented:
+- act-types and act-graph-datamodel is moved to act-admin and act-utils.
 
 # Local development
 
