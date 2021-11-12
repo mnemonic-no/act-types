@@ -297,8 +297,7 @@
           "person"
         ]
       }
-    ],
-    "validator": "(.|\\n)+"
+    ]
   },
   {
     "name": "port",
