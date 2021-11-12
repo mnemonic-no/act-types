@@ -64,7 +64,8 @@
       {
         "sourceObjectType": "path"
       }
-    ]
+    ],
+    "validator": "(.|\\n)+"
   },
   {
     "name": "category",
@@ -78,7 +79,8 @@
           "tool"
         ]
       }
-    ]
+    ],
+    "validator": "(.|\\n)+"
   },
   {
     "name": "classifiedAs",
@@ -142,7 +144,8 @@
           "ipv6"
         ]
       }
-    ]
+    ],
+    "validator": "(.|\\n)+"
   },
   {
     "name": "executes",
