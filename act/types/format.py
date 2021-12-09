@@ -9,7 +9,7 @@ def default_lowercase_format(value: Text) -> Text:
     * lowercase
     """
 
-    return re.sub(r"\s+", " ", re.sub(r"\(.*\)", "", value)).lower().strip()
+    return re.sub(r"\s+", " ", re.sub(r"\(.*\)", "", str(value))).lower().strip()
 
 
 OBJECT_FORMATTERS = {
@@ -23,4 +23,4 @@ def object_format(object_type: Text, object_value: Text) -> Text:
         return OBJECT_FORMATTERS[object_type](object_value)
 
     # No formatter specified
-    return object_value
+    return str(object_value)
