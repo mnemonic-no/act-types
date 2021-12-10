@@ -23,4 +23,4 @@ def object_format(object_type: Text, object_value: Text) -> Text:
         return OBJECT_FORMATTERS[object_type](object_value)
 
     # No formatter specified
-    return str(object_value)
+    return object_value
