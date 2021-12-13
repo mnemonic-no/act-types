@@ -1,12 +1,6 @@
 import re
 from typing import Text
 
-from act.types.types import object_validates
-
-
-class ValidationError(Exception):
-    pass
-
 
 def default_lowercase_format(value: Text) -> Text:
     """Default lowercase format
@@ -15,24 +9,18 @@ def default_lowercase_format(value: Text) -> Text:
     * lowercase
     """
 
-    return re.sub(r"\s+", " ", re.sub(r"\(.*\)", "", value)).lower().strip()
+    return re.sub(r"\s+", " ", re.sub(r"\(.*\)", "", str(value))).lower().strip()
 
 
-def validate(object_type: Text, object_value: Text):
-    """Validate object type/value"""
-    if not object_validates(object_type, object_value):
-        raise ValidationError(f"{object_type} does not validate: {object_value}")
+OBJECT_FORMATTERS = {
+    "tool": default_lowercase_format,
+    "threatActor": default_lowercase_format,
+}
 
+
+def object_format(object_type: Text, object_value: Text) -> Text:
+    if object_type in OBJECT_FORMATTERS:
+        return OBJECT_FORMATTERS[object_type](object_value)
+
+    # No formatter specified
     return object_value
-
-
-def format_tool(tool: Text) -> Text:
-    """Format and validate tool name"""
-
-    return validate("tool", default_lowercase_format(tool))
-
-
-def format_threat_actor(threat_actor: Text) -> Text:
-    """Format and validate Threat Actor name"""
-
-    return validate("threatActor", default_lowercase_format(threat_actor))
