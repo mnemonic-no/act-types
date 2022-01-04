@@ -1,3 +1,5 @@
+import pytest
+
 from act.types.types import object_validates
 
 PLACEHOLDER = (
@@ -5,10 +7,18 @@ PLACEHOLDER = (
 )
 
 
+def test_validator_non_string():
+    with pytest.raises(TypeError):
+        object_validates("tool", 1)
+
+    with pytest.raises(TypeError):
+        object_validates("tool", None)
+
+
 def test_tool_validator():
     assert object_validates("tool", "Mimikatz") is False
     assert object_validates("tool", "mimikatz") is True
-    assert object_validates("tool", "many 0days: ie") is False
+    assert object_validates("tool", "many 0days: ie") is True
 
 
 def test_threatactor_validator():
