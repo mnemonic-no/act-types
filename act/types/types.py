@@ -55,6 +55,11 @@ def get_object_validator(object_type: Text) -> Text:
 def object_validates(object_type: Text, object_value: Text) -> bool:
     """Validate object using current valdiator"""
 
+    if not isinstance(object_value, Text):
+        raise TypeError(
+            f"Illegal type for argument object_value: {object_value} (object_types={object_type})"
+        )
+
     if object_value == "*":
         # Fact Chain value -> do not validate
         return True
