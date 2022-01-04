@@ -57,7 +57,8 @@ def object_validates(object_type: Text, object_value: Text) -> bool:
 
     if not isinstance(object_value, Text):
         raise TypeError(
-            f"Illegal type for argument object_value: {object_value} (object_types={object_type})"
+            "Illegal type for argument object_value: "
+            f"(object_value={object_value}, object_value (type) = {type(object_value)}, object_type={object_type})"
         )
 
     if object_value == "*":
