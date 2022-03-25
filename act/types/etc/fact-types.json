@@ -240,6 +240,8 @@
           "organization",
           "person",
           "sector",
+          "technique",
+          "tactic",
           "threatActor",
           "tool",
           "uri",
