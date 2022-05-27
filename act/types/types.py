@@ -6,7 +6,7 @@ import functools
 import json
 import os
 import re
-from typing import Dict, List, Text
+from typing import Any, Dict, List, Text
 
 from pkg_resources import resource_filename
 
@@ -73,7 +73,7 @@ def object_validates(object_type: Text, object_value: Text) -> bool:
     return False
 
 
-def load_types(filename: Text) -> List[Dict]:
+def load_types(filename: Text) -> List[Dict[Text, Any]]:
     """
     Parse as json, and exit on parse error
     """
@@ -81,7 +81,8 @@ def load_types(filename: Text) -> List[Dict]:
         raise TypeLoadError(f"File not found: {filename}")
 
     try:
-        types = json.loads(open(filename, encoding="UTF8").read())
+        with open(filename, encoding="UTF8") as f:
+            types = json.load(f)
     except json.decoder.JSONDecodeError:
         raise TypeLoadError(f"Unable to parse file as json: {filename}")
 
