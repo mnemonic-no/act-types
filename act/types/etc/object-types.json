@@ -6,7 +6,8 @@
     "name": "asn"
   },
   {
-    "name": "campaign"
+    "name": "campaign",
+    "indexOption": "TimeGlobal"
   },
   {
     "name": "certificate"
@@ -16,7 +17,8 @@
     "validator": "^([a-f0-9]{64})|(\\[placeholder\\[[a-f0-9]{64}\\]\\])$"
   },
   {
-    "name": "country"
+    "name": "country",
+    "indexOption": "TimeGlobal"
   },
   {
     "name": "credential"
@@ -54,13 +56,15 @@
     "name": "mutex"
   },
   {
-    "name": "organization"
+    "name": "organization",
+    "indexOption": "TimeGlobal"
   },
   {
     "name": "path"
   },
   {
-    "name": "person"
+    "name": "person",
+    "indexOption": "TimeGlobal"
   },
   {
     "name": "platform"
@@ -72,7 +76,8 @@
     "name": "query"
   },
   {
-    "name": "region"
+    "name": "region",
+    "indexOption": "TimeGlobal"
   },
   {
     "name": "registryEntry"
@@ -81,7 +86,8 @@
     "name": "report"
   },
   {
-    "name": "sector"
+    "name": "sector",
+    "indexOption": "TimeGlobal"
   },
   {
     "name": "service"
@@ -90,26 +96,32 @@
     "name": "ssn"
   },
   {
-    "name": "subRegion"
+    "name": "subRegion",
+    "indexOption": "TimeGlobal"
   },
   {
     "name": "tactic",
+    "indexOption": "TimeGlobal",
     "validator": "((TA\\d+$)|(\\[placeholder\\[[a-f0-9]{64}\\]\\]))"
   },
   {
     "name": "technique",
+    "indexOption": "TimeGlobal",
     "validator": "(T\\d+(.\\d+)?$)|(\\[placeholder\\[[a-f0-9]{64}\\]\\])"
   },
   {
     "name": "threatActor",
+    "indexOption": "TimeGlobal",
     "validator": "(^[^A-Z]+$)|(\\[placeholder\\[[a-f0-9]{64}\\]\\])"
   },
   {
     "name": "tool",
+    "indexOption": "TimeGlobal",
     "validator": "(^[^A-Z]+$)|(\\[placeholder\\[[a-f0-9]{64}\\]\\])"
   },
   {
-    "name": "toolType"
+    "name": "toolType",
+    "indexOption": "TimeGlobal"
   },
   {
     "name": "uri",
