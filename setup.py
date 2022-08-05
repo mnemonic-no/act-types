@@ -22,7 +22,6 @@ setup(
     keywords="ACT, mnemonic",
     entry_points={
         "console_scripts": [
-            "act-types = act.types.types:main",
             "act-graph-datamodel = act.types.graph_datamodel:run",
         ]
     },
