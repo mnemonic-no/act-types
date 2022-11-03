@@ -6,8 +6,7 @@
     "name": "asn"
   },
   {
-    "name": "campaign",
-    "indexOption": "TimeGlobal"
+    "name": "campaign"
   },
   {
     "name": "certificate"
