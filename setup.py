@@ -11,7 +11,7 @@ with open(path.join(this_directory, "README.md"), "rb") as f:
 
 setup(
     name="act-types",
-    version="2.1.1",
+    version="2.1.2",
     author="mnemonic AS",
     zip_safe=True,
     author_email="opensource@mnemonic.no",
@@ -29,7 +29,8 @@ setup(
     package_data={"act.types": ["etc/*.json"]},
     packages=["act.types"],
     # https://packaging.python.org/guides/packaging-namespace-packages/#pkgutil-style-namespace-packages
-    # __init__.py under all packages under in the act namespace must contain exactly string:
+    # __init__.py under all packages under in the act namespace must contain
+    # exactly string:
     # __path__ = __import__('pkgutil').extend_path(__path__, __name__)
     namespace_packages=["act"],
     url="https://github.com/mnemonic-no/act-workers",
