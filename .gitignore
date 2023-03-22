@@ -5,5 +5,5 @@ dist/
 *.swp
 .cache
 .mypy_cache
-.gitignore
+.ropeproject
 .venv
