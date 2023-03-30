@@ -7,21 +7,21 @@ PLACEHOLDER = (
 )
 
 
-def test_validator_non_string():
+def test_validator_non_string() -> None:
     with pytest.raises(TypeError):
-        object_validates("tool", 1)
+        object_validates("tool", 1)  # type: ignore
 
     with pytest.raises(TypeError):
-        object_validates("tool", None)
+        object_validates("tool", None)  # type: ignore
 
 
-def test_tool_validator():
+def test_tool_validator() -> None:
     assert object_validates("tool", "Mimikatz") is False
     assert object_validates("tool", "mimikatz") is True
     assert object_validates("tool", "many 0days: ie") is True
 
 
-def test_threatactor_validator():
+def test_threatactor_validator() -> None:
     assert object_validates("threatActor", "APT28") is False
     assert object_validates("threatActor", "apT28") is False
     assert object_validates("threatActor", "apt28") is True
@@ -30,7 +30,7 @@ def test_threatactor_validator():
     assert object_validates("threatActor", PLACEHOLDER) is True
 
 
-def test_uri_validator():
+def test_uri_validator() -> None:
     # Illegal URIs
     assert object_validates("uri", "abc") is False
 

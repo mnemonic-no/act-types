@@ -1,9 +1,8 @@
 import re
 import string
-from typing import Text
 
 
-def default_lowercase_format(value: Text) -> Text:
+def default_lowercase_format(value: str) -> str:
     """Default lowercase format
     * remove text in paranthesis
     * replace multiple whitespace with single space
@@ -13,7 +12,7 @@ def default_lowercase_format(value: Text) -> Text:
     return re.sub(r"\s+", " ", re.sub(r"\(.*\)", "", str(value))).lower().strip()
 
 
-def hash_format(value: Text) -> Text:
+def hash_format(value: str) -> str:
     value = value.strip()
 
     if (value.upper() == value) and all(c in string.hexdigits for c in value):
@@ -34,7 +33,7 @@ OBJECT_FORMATTERS = {
 }
 
 
-def object_format(object_type: Text, object_value: Text) -> Text:
+def object_format(object_type: str, object_value: str) -> str:
     if object_type in OBJECT_FORMATTERS:
         return OBJECT_FORMATTERS[object_type](object_value)
 
