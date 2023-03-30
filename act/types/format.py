@@ -1,4 +1,5 @@
 import re
+import string
 from typing import Text
 
 
@@ -12,9 +13,23 @@ def default_lowercase_format(value: Text) -> Text:
     return re.sub(r"\s+", " ", re.sub(r"\(.*\)", "", str(value))).lower().strip()
 
 
+def hash_format(value: Text) -> Text:
+    value = value.strip()
+
+    if (value.upper() == value) and all(c in string.hexdigits for c in value):
+        # All characters in the hash is uppercase hexdigists so it is safe to lowercase
+        # the value We can not always lowercase, since we support hashes with mixed
+        # case, e.g. ssdeep
+        return value.lower()
+
+    return value
+
+
 OBJECT_FORMATTERS = {
     "tool": default_lowercase_format,
     "threatActor": default_lowercase_format,
+    "hash": hash_format,
+    "content": hash_format,
 }
 
 
