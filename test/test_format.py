@@ -12,6 +12,10 @@ def test_threatactor_format() -> None:
     assert object_format("threatActor", "supER+@ta") == "super+@ta"
 
 
+def test_vulnerability_format() -> None:
+    assert object_format("vulnerability", "CVE-2017-0199") == "cve-2017-0199"
+
+
 def test_hash_format() -> None:
     sha256 = "87428fc522803d31065e7bce3cf03fe475096631e5e07bbd7a0fde60c4cf25c7"
     sha256_upper = sha256.upper()
