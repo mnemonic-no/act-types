@@ -28,6 +28,7 @@ def hash_format(value: Text) -> Text:
 OBJECT_FORMATTERS = {
     "tool": default_lowercase_format,
     "threatActor": default_lowercase_format,
+    "vulnerability": default_lowercase_format,
     "hash": hash_format,
     "content": hash_format,
 }
