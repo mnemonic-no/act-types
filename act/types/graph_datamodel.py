@@ -5,11 +5,10 @@ import datetime
 import os
 import pickle
 import urllib.parse
-from typing import Generator, Optional, Tuple
+from typing import Any, Dict, Generator, Optional, Tuple
 
 import graphviz
 import requests
-
 from atlassian import Confluence
 
 
@@ -31,28 +30,33 @@ class DataModel:
         self.password = password
         self.user_id = user_id
         self.status: Optional[int] = None
-        self._objects: Optional[dict] = None
-        self._facts: Optional[dict] = None
+        self._objects: Optional[Dict[str, Any]] = None
+        self._facts: Optional[Dict[str, Any]] = None
         self.verify = cacert if cacert != "" else True
 
     def load(self) -> None:
         """Download the datamodel from the act instance"""
 
         headers = {"ACT-User-ID": str(self.user_id), "Accept": "application/json"}
-        auth = (self.username, self.password)
 
-        if self.username:
+        if self.username and self.password:
+            auth = (self.username, self.password)
             r = requests.get(
-                self.objects_url, auth=auth, headers=headers, verify=self.verify
+                self.objects_url,
+                auth=auth,
+                headers=headers,
+                verify=self.verify,  # type: ignore
             )
         else:
-            r = requests.get(self.objects_url, headers=headers, verify=self.verify)
+            r = requests.get(
+                self.objects_url, headers=headers, verify=self.verify  # type: ignore
+            )
 
         if r.status_code == 200:
             self._objects = r.json()
         else:
             if self.DEBUG:
-                print("Error loading objects: {}".format(r.status_code))
+                print(f"Error loading objects: {r.status_code}")
             self._objects = None
             self._facts = None
             self.status = r.status_code
@@ -60,16 +64,21 @@ class DataModel:
 
         if self.username:
             r = requests.get(
-                self.facts_url, auth=auth, headers=headers, verify=self.verify
+                self.facts_url,
+                auth=auth,
+                headers=headers,
+                verify=self.verify,  # type: ignore
             )
         else:
-            r = requests.get(self.facts_url, headers=headers, verify=self.verify)
+            r = requests.get(
+                self.facts_url, headers=headers, verify=self.verify  # type: ignore
+            )
 
         if r.status_code == 200:
             self._facts = r.json()
         else:
             if self.DEBUG:
-                print("Error loading objects: {}".format(r.status_code))
+                print(f"Error loading objects: {r.status_code}")
             self._objects = None
             self._facts = None
             self.status = r.status_code
@@ -77,7 +86,7 @@ class DataModel:
 
         self.status = r.status_code
 
-    def __eq__(self, other: object) -> bool:
+    def __eq__(self, other: Any) -> bool:
         return set(self.objects) == set(other.objects) and set(self.facts) == set(
             other.facts
         )
@@ -168,7 +177,7 @@ def run() -> None:
     dm.load()
 
     if dm.status != 200:
-        print("{} Status code {}".format(str(datetime.datetime.now()), dm.status))
+        print(f"{str(datetime.datetime.now())} Status code {dm.status}")
         return
 
     try:
@@ -178,7 +187,7 @@ def run() -> None:
     except FileNotFoundError:
         print("First run")
 
-    print("{} Graphing changes".format(str(datetime.datetime.now())))
+    print(f"{str(datetime.datetime.now())} Graphing changes")
 
     pickle.dump(dm, open("cache.dat", "wb"))
 

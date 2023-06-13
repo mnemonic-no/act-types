@@ -1,0 +1,100 @@
+repos:
+  - repo: local
+    hooks:
+      - id: isort
+        name: isort
+        language: python
+        entry: isort
+        types: [python]
+        additional_dependencies: [isort==5.10.1]
+        args: ["--profile", "black"]
+
+  - repo: local
+    hooks:
+      - id: black
+        name: black
+        language: python
+        entry: black
+        types: [python]
+        additional_dependencies: [black==22.12.0]
+
+  - repo: local
+    hooks:
+      - id: mypy
+        name: mypy
+        language: python
+        entry: mypy
+        types: [python]
+        additional_dependencies: ["mypy==1.1.1"]
+        args: [".", "--strict", "--install-types", "--non-interactive"]
+        pass_filenames: false
+        always_run: true
+
+  - repo: local
+    hooks:
+      - id: pyupgrade
+        name: pyupgrade
+        language: python
+        entry: pyupgrade
+        types: [python]
+        args: ["--py36-plus"]
+        additional_dependencies: [pyupgrade==3.1.0]
+
+  - repo: local
+    hooks:
+      - id: ruff
+        name: ruff
+        language: python
+        entry: ruff
+        types: [python]
+        additional_dependencies: [ruff==0.0.260]
+
+  - repo: local
+    hooks:
+      - id: pytest
+        name: pytest
+        entry: pytest
+        language: python
+        types: [python]
+        additional_dependencies: [pytest==7.2.2]
+        pass_filenames: false
+        always_run: true
+
+  - repo: local
+    hooks:
+      - id: trailing-whitespace
+        name: trailing-whitespace
+        entry: trailing-whitespace-fixer
+        language: python
+        types: [text]
+        additional_dependencies: [pre-commit-hooks==4.0.1]
+
+      - id: end-of-file-fixer
+        name: end-of-file-fixer
+        entry: end-of-file-fixer
+        language: python
+        types: [text]
+        additional_dependencies: [pre-commit-hooks==4.0.1]
+
+      - id: check-json
+        name: check-json
+        entry: check-json
+        language: python
+        exclude: kafka-dump.json
+        types: [json]
+        additional_dependencies: [pre-commit-hooks==4.0.1]
+
+      - id: check-added-large-files
+        name: check-added-large-files
+        entry: check-added-large-files
+        exclude: kafka-dump.json
+        language: python
+        types: [file]
+        additional_dependencies: [pre-commit-hooks==4.0.1]
+
+      - id: debug-statements
+        name: debug-statements
+        entry: debug-statement-hook
+        language: python
+        types: [python]
+        additional_dependencies: [pre-commit-hooks==4.0.1]
